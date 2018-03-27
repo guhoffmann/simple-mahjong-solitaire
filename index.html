@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <!--<html>-->  
+  <head>
+
+    <!----------------------------------------------------------------
+    
+                         Simple Mahjong Solitaire
+                          (C) Uwe Hoffmann 2018
+        
+    Spinoff of Green-Mahjong-Master, Copyright 2014, Daniel Beck and Karin Beck
+    Changes to the original files:
+    
+    - update to JQuery 3.1.1
+    - replaced lots of jquery with Vanilla JS to gain more responsiveness for mobile
+    - no locales - fixed English language
+    - only one theme (Classic)
+    - button for fullscreen mode
+    - eliminated all time and point measurements for relaxed gaming;)
+    - erased unused functions and consolidated small functions to get less function calls
+    - put sparouter.js to main js file
+    - substituted fastclick.js and put code to main js file
+    - simple touch support for faster touch on smartphones/tablets
+    - small changes in design to get smaller size/amount of files/data
+    - replaced .shuffle with own Fisher-Yates function to put aside underscore.js
+    - added CSS shadows for better 3D-Look
+    - added comments for better source documentation
+    - added global variable for caching some JQuery calls to DOM
+    - changed css animations
+    - changed button icons from png to icon font
+
+    This file is part of Simple-Mahjong.
+    
+    Simple-Mahjong is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    Simple-Mahjong is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with Simple-Mahjong.  If not, see <http://www.gnu.org/licenses/>.
+
+    ----------------------------------------------------------------->
+
+   <title>Simple Mahjong</title>
+   <meta charset="UTF-8">
+   <meta id="Viewport" name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=yes">
+   <link href="css/mahjong.css" rel="stylesheet"/>
+   <link href="css/normalize.css" rel="stylesheet"/>
+
+   <link href="css/mahjong_verysmallscreen.css" rel="stylesheet"/>
+   <link href="css/mahjong_smallscreen.css" media="(min-device-width:640px) and (max-device-width:1129px) and (min-device-height:460px),(min-device-height:460px) and (max-device-height:779px) and (min-device-width:640px)" rel="stylesheet"/>
+   <link href="css/mahjong_bigscreen.css" media="(min-device-width: 1130px) and (max-device-width:1599px) and (min-device-height:780px),(min-device-height:780px) and (max-device-height:1129px) and (min-device-width:1130px)"  rel="stylesheet"/>
+   <link href="css/mahjong_verybigscreen.css" media="(min-device-width:1600px) and (min-device-height:1100px)" rel="stylesheet"/>
+
+   </head>
+
+  <body>
+    <div id="background">
+    </div>
+
+    <div class="game-buttons upperbuttons">
+      <ul>
+        <li >
+          <a id="menuGameButton" class="icon button small" href="#menu">
+            &#xe09b;
+          </a>
+        </li>
+        <li id="undoButton">
+          <a class="button small icon">
+              &#xe003;
+          </a>
+        </li>
+        <li id="activateHints">
+          <a class="button small icon">
+              &#xe065;
+          </a>
+        </li>
+        <li>
+          <a class="button small icon" onclick="changeFullscreen(body)">  
+            &#xe0b4;
+          </a>
+        </li>
+        <li>
+           <a class="button small icon" onclick="showInfo()">  
+            ?
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div id="startScreen" class="scene" data-page="start">
+      <section>
+        <div id="layouts">
+          <a href="#game" data-page-options="turtle">
+            <div class="layoutSelection">
+              <h3>Turtle - Simple</h3>
+              <div class="turtle"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >play</span></p>
+            </div>
+          </a>
+          <div class="newline"></div>
+          <a href="#game"  data-page-options="flower">
+            <div class="layoutSelection">
+              <h3>Flower - Medium</h3>
+              <div class="flower"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >play</span></p>
+            </div>
+          </a>
+          <div class="newline even"></div>
+          <a href="#game"  data-page-options="spider"> 
+            <div class="layoutSelection">
+              <h3>Spider - Difficult</h3>
+              <div class="spider"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >play</span></p>
+            </div>
+          </a>
+          <div class="newline threeDivisible"></div>
+          <a href="#game"  data-page-options="cloud"> 
+            <div class="layoutSelection">
+              <h3>Cloud - Inferno</h3>
+              <div class="cloud"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >play</span></p>
+            </div>
+          </a>
+          <div class="newline even"></div>
+          <a href="#game"  data-page-options="bug">
+            <div class="layoutSelection">
+              <h3>Bug - Simple</h3>
+              <div class="bug"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >spielen</span></p>
+            </div>
+          </a>
+          <div class="newline"></div>
+          <a href="#game" data-page-options="fourHills"> 
+            <div class="layoutSelection">
+              <h3>Four Mountains - Tricky</h3>
+              <div class="fourHills"></div>
+              <p style="position: absolute; top: 95px;left: 98px"><span class="button" >play</span></p>
+            </div>
+          </a>
+          <div class="newline even threeDivisible"></div>
+        </div>
+      </section>
+    </div>
+    <div id="menuScreen" class="scene" style="background: rgba(0,0,0,0.75)" data-page="menu" data-back-options="resumeGame">
+      <section>
+        <h1><img src="images/mahjong.svg"></h1>
+        <h2>Solitaire</h2>
+        <a class="addBorder" id="newGameButton" data-page-option="startNewGame" data-back="-2">New Game</a>
+        <a class="addBorder" id="aboutButton" href="#about">Infos</a>
+        <a class="addBorder" id="resumeGameButton" data-back="-1"  data-page-options="resumeGame">Back To Game</a>
+      </section>
+    </div>
+    <div id="aboutScreen" class="scene" style="background: rgba(0,0,0,0.75)" data-page="about">
+      <section><h1><img src="images/mahjong.svg"></h1>
+        <h2>Solitaire</h2>
+      <h3>Author:</h3>
+        <p>Uwe Hoffmann 2018</p>
+        <p>Based on <em>Green Mahjong</em> from Daniel and Karin Beck</p>
+      </section>
+      <p><a class="button" data-back="-1">Back To Main Menu</a></p>
+    </div>
+    <div id="winningMessage" style="padding-bottom: 90px;" class="popup">
+      <img src="images/cup_small.png" alt="winning cup">
+      <div class="scrollable">
+        <a class="button" id="newGameButtonWin" data-back="-1"  data-page-options="startNewGame" >Start New Game!</a>
+      </div>
+    </div>
+    <div id="loseMessage" class="popup">
+        </br>
+        </br>
+        </br>
+        </br>
+      <div><h1>No Moves Possible!</h1>
+        <a class="button" id="newGameButtonLost" data-back="-1" data-page-options="startNewGame">Start New Game!</a>
+      </div>
+    </div>
+    <div class="outer" id="gameScene" data-page="game" data-back-options="startNewGame">
+      <section id="game" class="middle">
+        <div id="cards" class="inner">      
+          <div class="card">
+          </div>
+          <div class="shadow"></div>
+        </div>
+      </section>
+    </div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/mahjong.js"></script>
+    <script src="js/levels.js"></script>
+
+  </body>
+</html>
