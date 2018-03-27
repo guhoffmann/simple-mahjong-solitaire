@@ -5,7 +5,7 @@ Simple Mahjong is a HTML5 based GPLv3 solitaire mahjong game. It's a fork of the
 Changes to Green Mahjong:
 
 - update to JQuery 3.1.1
-- replaced lots of jquery with Vanilla JS to gain more responsiveness for mobile
+- replaced lots of jquery with VanillaJS to gain more responsiveness for mobile
 - no locales - fixed English language
 - only one theme (Classic)
 - button for fullscreen mode
