@@ -18,7 +18,7 @@ Changes to Green Mahjong:
 - replaced .shuffle with own Fisher-Yates function to put aside underscore.js
 - added CSS shadows for better 3D-Look
 - added comments for better source documentation
-- added global variable for caching some JQuery calls to DOM
+- added global variables for caching some JQuery calls to DOM
 - changed css animations
 - changed button icons from png to icon font
 
