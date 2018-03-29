@@ -1,7 +1,7 @@
-# simple-mahjong
-Mahjong-Solitaire - fork of Green Mahjong
+# simple-mahjong-solitaire
+Simple-Mahjong-Solitaire - fork of Green Mahjong
 
-Simple Mahjong is a HTML5 based GPLv3 solitaire mahjong game. It's a fork of the game Green Mahjong from Daniel Beck and has several changes to the original code and runs on all the major desktop and mobile browsers.
+Simple-Mahjong-Solitaire is a HTML5 based GPLv3 solitaire mahjong game. It's a fork of the game Green Mahjong from Daniel Beck and has several changes to the original code and runs on all the major desktop and mobile browsers.
 Changes to Green Mahjong:
 
 - update to JQuery 3.1.1
